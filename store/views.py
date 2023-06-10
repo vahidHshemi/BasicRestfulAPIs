@@ -1,8 +1,10 @@
+from msilib.schema import ServiceInstall
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import HttpResponse
 from .models import Product, Collection
+from .serializers import ProductSerializer, CollectionSerializer
 # Create your views here.
 
 # this is the basic view function based on the HttpRequest and HttpResponce of Django
@@ -26,16 +28,28 @@ from .models import Product, Collection
 
 @api_view()
 def product_list(request):
-    return Response("you are in product list page")
+    queryset = Product.objects.all()
+    serializer = ProductSerializer(queryset, many=True)
+    # return Response("you are in product list page")
+    return Response(serializer.data)
 
 @api_view()
 def product_detail(request, id):
-    return Response(f"you are in product detail page number {id}")
+    product = Product.objects.get(pk=id)
+    serializer = ProductSerializer(product)
+    # return Response(f"you are in product detail page number {id}")
+    return Response(serializer.data)
 
 @api_view()
 def collection_list(request):
-    return Response("you are in collection list page")
+    queryset = Collection.objects.all()
+    serializer = CollectionSerializer(queryset, many=True)
+    # return Response("you are in collection list page")
+    return Response(serializer.data)
 
 @api_view()
 def collection_detail(request, id):
-    return Response(f"you are in collection detail page number {id}")
+    collection = Collection.objects.get(pk=id)
+    serializer = CollectionSerializer(collection)
+    # return Response(f"you are in collection detail page number {id}")
+    return Response(serializer.data)
