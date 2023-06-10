@@ -1,5 +1,5 @@
-from msilib.schema import ServiceInstall
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import HttpResponse
@@ -35,7 +35,7 @@ def product_list(request):
 
 @api_view()
 def product_detail(request, id):
-    product = Product.objects.get(pk=id)
+    product = get_object_or_404(Product, pk=id)
     serializer = ProductSerializer(product)
     # return Response(f"you are in product detail page number {id}")
     return Response(serializer.data)
@@ -49,7 +49,7 @@ def collection_list(request):
 
 @api_view()
 def collection_detail(request, id):
-    collection = Collection.objects.get(pk=id)
+    collection = get_object_or_404(Product, pk=id)
     serializer = CollectionSerializer(collection)
     # return Response(f"you are in collection detail page number {id}")
     return Response(serializer.data)
