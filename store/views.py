@@ -29,13 +29,13 @@ def product_list(request):
     return Response("you are in product list page")
 
 @api_view()
-def product_detail(request):
-    return Response("you are in product detail page")
+def product_detail(request, id):
+    return Response(f"you are in product detail page number {id}")
 
 @api_view()
-def collction_list(request):
+def collection_list(request):
     return Response("you are in collection list page")
 
 @api_view()
-def collection_detail(request):
-    return Response("you are in collection detail page")
+def collection_detail(request, id):
+    return Response(f"you are in collection detail page number {id}")
