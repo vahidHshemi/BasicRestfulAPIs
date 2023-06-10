@@ -19,6 +19,10 @@ from django.urls import path, include
 import playground
 import debug_toolbar
 
+# for customization admin panel
+admin.site.site_header = 'StoreFront Admin'
+admin.site.index_title = 'Admin'
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('playground/', include('playground.urls')),

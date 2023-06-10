@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "store",
     "tags",
     "likes",
+    "store_custome",
     "debug_toolbar"
 ]
 
@@ -86,7 +87,7 @@ WSGI_APPLICATION = "storefront.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "new_storefront",
+        "NAME": "storefront2_1",
         "HOST": "localhost",
         "USER": "root",
         "PASSWORD": "12345vahid6",
