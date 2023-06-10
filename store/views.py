@@ -49,7 +49,7 @@ def collection_list(request):
 
 @api_view()
 def collection_detail(request, id):
-    collection = get_object_or_404(Product, pk=id)
+    collection = get_object_or_404(Collection, pk=id)
     serializer = CollectionSerializer(collection)
     # return Response(f"you are in collection detail page number {id}")
     return Response(serializer.data)
