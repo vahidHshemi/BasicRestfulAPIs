@@ -2,6 +2,10 @@ from rest_framework import serializers
 from decimal import Decimal
 from .models import Collection
 
+class CollectionSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    title = serializers.CharField(max_length=100)
+
 class ProductSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     title = serializers.CharField(max_length=100)
@@ -18,8 +22,7 @@ class ProductSerializer(serializers.Serializer):
     # based on primary_key
     # collection = serializers.PrimaryKeyRelatedField(read_only=True)
     # based on StringRelatedField
-    collection = serializers.StringRelatedField(read_only=True)
+    # collection = serializers.StringRelatedField(read_only=True)
+    # based on nested objects
+    collection = CollectionSerializer()
 
-class CollectionSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    title = serializers.CharField(max_length=100)
