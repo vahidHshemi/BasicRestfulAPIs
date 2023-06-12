@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
@@ -29,7 +30,7 @@ from .serializers import ProductSerializer, CollectionSerializer
 @api_view()
 def product_list(request):
     queryset = Product.objects.select_related('collection').all()
-    serializer = ProductSerializer(queryset, many=True)
+    serializer = ProductSerializer(queryset, many=True, context={'request':request})
     # return Response("you are in product list page")
     return Response(serializer.data)
 
@@ -48,8 +49,8 @@ def collection_list(request):
     return Response(serializer.data)
 
 @api_view()
-def collection_detail(request, id):
-    collection = get_object_or_404(Collection, pk=id)
+def collection_detail(request, pk):
+    collection = get_object_or_404(Collection, pk=pk)
     serializer = CollectionSerializer(collection)
     # return Response(f"you are in collection detail page number {id}")
     return Response(serializer.data)

@@ -1,3 +1,4 @@
+from gc import collect
 from rest_framework import serializers
 from decimal import Decimal
 from .models import Collection
@@ -24,5 +25,7 @@ class ProductSerializer(serializers.Serializer):
     # based on StringRelatedField
     # collection = serializers.StringRelatedField(read_only=True)
     # based on nested objects
-    collection = CollectionSerializer()
+    # collection = CollectionSerializer()
+    # based on hyperlinkfield()
+    collection = serializers.HyperlinkedRelatedField(queryset=Collection.objects.all(), view_name='collection_detail')
 
