@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from decimal import Decimal
+from .models import Collection
 
 class ProductSerializer(serializers.Serializer):
     id = serializers.IntegerField()
@@ -10,8 +11,14 @@ class ProductSerializer(serializers.Serializer):
     # creating customize serializer fields
     price_with_tax = serializers.SerializerMethodField(method_name='claculate_tax')
     
-    def claculate_tax(self, unit_price):
-        return unit_price * Decimal(1.1)
+    def claculate_tax(self, Product):
+        return Product.unit_price * Decimal(1.1)
+    
+    # Serializing Relationships
+    # based on primary_key
+    # collection = serializers.PrimaryKeyRelatedField(read_only=True)
+    # based on StringRelatedField
+    collection = serializers.StringRelatedField(read_only=True)
 
 class CollectionSerializer(serializers.Serializer):
     id = serializers.IntegerField()
