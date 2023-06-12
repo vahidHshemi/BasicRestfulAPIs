@@ -1,4 +1,5 @@
 from multiprocessing import context
+from sre_constants import SRE_INFO_LITERAL
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
@@ -27,12 +28,19 @@ from .serializers import ProductSerializer, CollectionSerializer
 
 # as second try make view function based on api-view of resframework
 
-@api_view()
+@api_view(['GET', 'POST'])
 def product_list(request):
-    queryset = Product.objects.select_related('collection').all()
-    serializer = ProductSerializer(queryset, many=True, context={'request':request})
+    if request.method == 'GET':
+        queryset = Product.objects.select_related('collection').all()
+        serializer = ProductSerializer(queryset, many=True, context={'request':request})
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        serializer = ProductSerializer(data=request.data)
+        return Response(serializer.data)
+    
     # return Response("you are in product list page")
-    return Response(serializer.data)
+    
 
 @api_view()
 def product_detail(request, id):
@@ -41,12 +49,18 @@ def product_detail(request, id):
     # return Response(f"you are in product detail page number {id}")
     return Response(serializer.data)
 
-@api_view()
+@api_view(['GET', 'POST'])
 def collection_list(request):
-    queryset = Collection.objects.all()
-    serializer = CollectionSerializer(queryset, many=True)
+    if request.method == 'GET':
+        queryset = Collection.objects.all()
+        serializer = CollectionSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        serializer = CollectionSerializer(data=request.data)
+        return Response(serializer.data)
+    
     # return Response("you are in collection list page")
-    return Response(serializer.data)
 
 @api_view()
 def collection_detail(request, pk):
