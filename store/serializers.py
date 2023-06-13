@@ -33,17 +33,33 @@ from .models import Collection, Product
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
-        fields = ['id', 'title']
+        fields = ['id', 'title', 'products_count']
+    
+    products_count = serializers.IntegerField()
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'title', 'description', 'unit_price', 'price_with_tax', 'collection']
+        fields = ['id', 'title', 'description', 'slug', 'inventory', 'unit_price', 'price_with_tax', 'collection']
     
     price_with_tax = serializers.SerializerMethodField(method_name='calculate_price')
     
     def calculate_price(self, Product: Product):
         return Product.unit_price * Decimal(1.1)
     
-    collection = serializers.HyperlinkedRelatedField(queryset=Collection.objects.all(), view_name='collection_detail')
+    # collection = serializers.HyperlinkedRelatedField(queryset=Collection.objects.all(), view_name='collection_detail')
+    
+    # when you need to set special fields or ...
+    # def create(self, validated_data):
+    #     product = Product(**validated_data)
+    #     product.other = 1
+    #     product.save()
+    #     return product
+    
+    # def update(self, instance, validated_data):
+    #     instance.unit_price = validated_data.get('unit_price')
+    #     instance.save()
+    #     return instance
+    
+    
 
